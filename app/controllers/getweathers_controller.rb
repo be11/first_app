@@ -16,6 +16,7 @@ class GetweathersController < ApplicationController
     end
     @param = PARAM
     @tparam = PARAM_TIME
+		@pref = Pref.find_by_pref_id(params[:pref][:id]).pref_name
   end
 
 	def get_data
