@@ -1,0 +1,11 @@
+<h1>Getweathers#show</h1>
+
+<div class="result">
+  <%@param.each do |k, v| %>
+    <%= k %> : <%= @wdata.send(k) %>
+   <% end %>
+   <%@tparam.each do |k, v| %>
+    <%= k %> : <%= @wdata.send(k) %>
+   <% end %>
+</div>
+

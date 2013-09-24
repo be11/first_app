@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  pref_id: 1
+  pref_name: MyString
+
+two:
+  pref_id: 1
+  pref_name: MyString

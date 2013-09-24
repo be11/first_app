@@ -1,7 +1,12 @@
 FirstApp::Application.routes.draw do
-  get "static_pages/home"
-
-  get "static_pages/help"
+  resources :getweathers
+  resources :pref
+  resources :weather
+  root to: 'static_pages#home'
+  match '/help', to: 'static_pages#help'
+  match '/signup', to: 'users#new'
+  #match '/result', to: 'weather#show'
+  match '/result', to: 'getweathers#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
