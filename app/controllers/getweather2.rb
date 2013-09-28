@@ -1,14 +1,22 @@
+# -*- coding: utf-8 -*-
 require 'json'
 require 'open-uri'
 require 'date'
 
 class Weather
+  #以下のデーターは設定値なのでRailsではconfig/enviroments/もしくはconfig/application.rbに移動すべし
   URL_W = "http://api.openweathermap.org/data/2.5/weather?"
   URL_F = "http://api.openweathermap.org/data/2.5/forecast?"
   MTR = "&units=metric"
   OK = 200
 
   def initialize(args)
+    #elsifを何回も重ねるとわからないので
+    #case〜when〜elseにすべき
+    # またこのやり方だと、raiseのときにreturnが明示的にもどっていない
+    #クラス変数を設定するならattr_accessorを使って明示的に範囲を設定すべき
+    #むしろこれならinitalizerの中でやらずに、make_urlというメソッドをつかい、やるべき
+
     if args.key?(:place) && args[:place].is_a?(String)
       @path = "q=#{args[:place].downcase.gsub(/\s+/, "")}"
     elsif args.key?(:lat) && args.key?(:lon)
@@ -42,11 +50,11 @@ class Weather
      data = Array.new
      if (param = id.to_s)=~ /^fc_/
        @fdata.each do |i|
-        d = i
-        param.sub(/^fc_/, '').gsub(/__/," ").split(/_/).each {|j| d = (j =~ /[0-9]/) ? d[j.to_i] : d[j.gsub(/\s/, "_")]}
-        super unless d
-        data.push(i["dt_txt"].split.last, d)
-       end
+          d = i
+          param.sub(/^fc_/, '').gsub(/__/," ").split(/_/).each {|j| d = (j =~ /[0-9]/) ? d[j.to_i] : d[j.gsub(/\s/, "_")]}
+          super unless d
+          data.push(i["dt_txt"].split.last, d)
+        end
      else
        data = @data
        param.gsub(/__/, " ").split(/_/).each {|i| data = (i =~ /[0-9]/) ? data[i.to_i] : data[i.gsub(/\s/, "_")]}
@@ -71,6 +79,11 @@ class Weather
     return true
   end
 end
+
+#ここいかは読み込むたびに実行されるので、
+#テストコードに分離するかコメントアウトするか
+#ARGV[0]をみて判定するようにすべき
+#rubyはコードをincludeした時点で一度実行されることに注意
 w = Weather.new(:place => "sapporo,JP")
 w.get
 p "lon"
